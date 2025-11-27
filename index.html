@@ -3,22 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Torneio - Categoria Master</title>
+  <title>ABERTO DE SINUCA REGRA BRASILEIRA</title>
 
   <style>
-    :root {
-      --header-height: 55px;
-      --menu-height: 55px;
-    }
-
     body {
       margin: 0;
       background: #111;
       font-family: Arial, sans-serif;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      min-height: 100vh;
     }
 
     header {
@@ -33,13 +25,38 @@
       z-index: 3;
     }
 
-    iframe {
-      border: none;
-      width: 100%;
-      height: calc(100vh - var(--header-height) - var(--menu-height));
-      opacity: 0;
-      transition: opacity 0.5s;
-      flex: 1;
+    /* =====================================
+       ESTILO DO IFRAME PARA PC (TELAS GRANDES)
+       ===================================== */
+    @media (min-width: 601px) {
+      iframe {
+        border: none;
+        width: 1600px;
+        height: 1100px;
+        transform: scale(0.65);
+        transform-origin: top left;
+        display: block;
+        margin: 20px auto;
+      }
+    }
+
+    /* =====================================
+       ESTILO DO IFRAME PARA CELULAR
+       (TELAS PEQUENAS)
+       ===================================== */
+    @media (max-width: 600px) {
+      iframe {
+        border: none;
+        width: 2000px;      /* largura real da planilha */
+        height: 350vh;      /* altura suficiente */
+        transform: scale(0.25);   /* escala perfeita para caber inteira */
+        transform-origin: top left;
+        display: block;
+      }
+
+      body {
+        overflow-x: hidden !important;  /* impede arrastar para o lado */
+      }
     }
 
     #refreshBtn {
@@ -61,8 +78,8 @@
     }
 
     @keyframes spin {
-      from { transform: rotate(0deg);}
-      to { transform: rotate(360deg);}
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     #loading {
@@ -103,20 +120,12 @@
       background: #3c9;
     }
 
-    @media (max-width: 600px) {
-      iframe {
-        height: calc(100dvh - var(--header-height) - var(--menu-height));
-      }
-
-      .menu button {
-        flex: 1 1 48%;
-      }
-    }
   </style>
 </head>
+
 <body>
 
-<header>Torneio - Categoria Master</header>
+<header>ABERTO-FMBSAABB</header>
 
 <button id="refreshBtn" onclick="atualizar()">🔄 Atualizar</button>
 
@@ -125,20 +134,22 @@
   <button onclick="trocarAba(787242241, this)">TABELA</button>
 </div>
 
+<div id="container"></div>
+
 <div id="loading">Carregando planilha...</div>
 
 <script>
-  const baseLink = 
+  const baseLink =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTulTy7_43V7j25YR_dhqweXjnVaqTGDfyF0ECoPA1fiRFj5mz-srAuTRLYfxrYu05ZN-FQumwFtAgR/pubhtml";
 
   const iframe = document.createElement("iframe");
   iframe.id = "planilha";
-  document.body.appendChild(iframe);
+  document.getElementById("container").appendChild(iframe);
 
-  let abaAtual = 0; // primeiro GID
+  let abaAtual = 1343965072;
 
   function gerarURL(gid) {
-    return `${baseLink}?gid=${gid}&single=true&widget=true&headers=false&t=${Date.now()}`;
+    return `${baseLink}?gid=${gid}&single=true&rm=minimal&widget=true&chrome=false&headers=false&t=${Date.now()}`;
   }
 
   function carregarIframe(gid) {
